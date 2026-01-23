@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
 import { redis } from "@/app/lib/redis";
 import events from "@/app/dailyEvents/events";
-
-type DailyChallenge = {
-    image: string,
-    answer: number,
-}
+import { DailyChallenge } from "@/app/types";
 
 export async function GET() {
   const todayKey = `daily:challenge:${new Date().toISOString().slice(0,10)}`;

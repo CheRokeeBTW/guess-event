@@ -2,17 +2,14 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
-type DailyChallenge = {
-  image: string;
-  answer: number;
-};
+import { DailyChallenge } from "./types";
 
 export default function Home() {
   const [challengeData, setChallengeData] = useState<DailyChallenge | null>();
   const [isLoading, setIsLoading] = useState<Boolean | null>(true);
   const [guessValue, setGuessValue] = useState<string>("");
   const [result, setResult] = useState<number | null>(0);
+  const [questionData, setQuestionData] = useState<string | null>("");
 
   useEffect(()=>{
     async function fetchChallengeData(){
@@ -23,7 +20,7 @@ export default function Home() {
     throw new Error('Network response was not ok');
   }
   else{
-    setChallengeData(data)
+    setChallengeData(data);
     setIsLoading(false)
   }
   console.log(data)
@@ -65,6 +62,7 @@ if(isLoading) return <div>Loading...</div>
               height={250}
             />
             </div>
+               <div>{challengeData?.question || ''}</div>
             <div className="bg-white w-full">
               <input
               className="w-full text-black"
