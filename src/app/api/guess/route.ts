@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 import { redis } from "@/app/lib/redis";
-
-type DailyChallenge = {
-  image: string;
-  answer: number;
-};
+import { DailyChallenge } from "@/app/types";
 
 export async function POST(req: Request) {
   const { guess } = await req.json();
