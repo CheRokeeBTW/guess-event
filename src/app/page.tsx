@@ -10,6 +10,11 @@ export default function Home() {
   const [guessValue, setGuessValue] = useState<string>("");
   const [result, setResult] = useState<number | null>(0);
   const [questionData, setQuestionData] = useState<string | null>("");
+  const [stats, setStats] = useState<{
+  totalPlayers: number;
+  exactPercent: number;
+  mostPopularGuess: { guess: string; count: number } | null;
+} | null>(null);
 
   useEffect(()=>{
     async function fetchChallengeData(){
@@ -47,41 +52,83 @@ export default function Home() {
     const data = await res.json();
     console.log('post', data)
     setResult(data.points)
+
+    const statsRes = await fetch("/api/stats");
+    const statsData = await statsRes.json();
+    setStats(statsData);
+    console.log(statsData, 'stats')
   }
 
 if(isLoading) return <div>Loading...</div>
 
   return (
-    <div className="flex min-h-screen items-center justify-center font-sans bg-background">
-      <main className="flex flex-col items-center justify-center gap-5">
-        <div>
-          <Image
-              src={challengeData?.image || '/placeholder.jpg'}
-              alt="guess the even"
-              width={350}
-              height={250}
-            />
-            </div>
-               <div>{challengeData?.question || ''}</div>
-            <div className="bg-white w-full">
-              <input
-              className="w-full text-black"
-              type="text"
-              name="guess"
-              value={guessValue}
-              placeholder="Guess the date"
-              onChange={(e) => setGuessValue(e.target.value)}
-              >
-              </input>
-            </div>
-            <div className="w-full">
-              <button className="w-full border border-gray-500 bg-green-700"
-              onClick = {handleGuessValue}>
-               <span>Guess</span>
-              </button>
-            </div>
-            {result && <div className="mt-3">{result}</div>}
-      </main>
-    </div>
-  );
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-900 to-zinc-800 font-sans text-white">
+    <main className="w-full max-w-md rounded-2xl bg-zinc-900/90 shadow-2xl p-6 flex flex-col gap-5">
+
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-semibold">Guess the Year</h1>
+        <button className="text-sm text-zinc-300 hover:text-white underline">
+          Sign in
+        </button>
+      </div>
+
+      <div className="rounded-xl overflow-hidden border border-zinc-700">
+        <Image
+          src={challengeData?.image || "/placeholder.jpg"}
+          alt="historical event"
+          width={350}
+          height={250}
+          className="object-cover w-full h-auto"
+        />
+      </div>
+
+      <div className="text-center text-zinc-300 text-sm">
+        {challengeData?.question || "When did this event happen?"}
+      </div>
+
+      <input
+        className="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-4 py-2 text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-green-600"
+        type="number"
+        name="guess"
+        value={guessValue}
+        placeholder="Enter year (e.g. 1800)"
+        onChange={(e) => setGuessValue(e.target.value)}
+      />
+
+      <button
+        onClick={handleGuessValue}
+        className="w-full rounded-lg bg-green-600 hover:bg-green-500 transition-colors py-2 font-semibold"
+      >
+        Guess
+      </button>
+      
+          {stats && (
+  <div className="w-full rounded-lg border bg-gray-300 p-3 text-sm text-gray-800">
+    <p>
+      🎯 <strong>{stats.exactPercent}%</strong> of players got it exactly right
+    {(result === 3) && <span> (including you!)</span>}
+    </p>
+    {stats.mostPopularGuess && (
+      <p className="mt-1">
+        📊 Most popular guess:{" "}
+        <strong>{stats.mostPopularGuess.guess}</strong>
+      </p>
+    )}
+    <p className="mt-1 text-gray-500">
+      👥 {stats.totalPlayers} players today
+    </p>
+  </div>
+)}
+
+      <div className="text-center text-lg text-zinc-300">
+        Your points: <span className="font-semibold text-white">{result}</span>
+        {result === 3 && <span className="text-yellow-600 text-sm"> (you're not cheating right?)</span>}
+        {result === 2 && <span className="text-yellow-600 text-sm"> (very close!)</span>}
+        {result === 1 && <span className="text-yellow-600 text-sm"> (well at least you got a point)</span>}
+        {result === 0 && <span className="text-yellow-600 text-sm"> (at least you're not cheating)</span>}
+      </div>
+
+    </main>
+  </div>
+);
 }

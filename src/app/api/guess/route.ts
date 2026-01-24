@@ -1,30 +1,54 @@
 import { NextResponse } from "next/server";
 import { redis } from "@/app/lib/redis";
 import { DailyChallenge } from "@/app/types";
+import events from "@/app/dailyEvents/events";
 
 export async function POST(req: Request) {
   const { guess } = await req.json();
-  const todayKey = `daily:challenge:${new Date().toISOString().slice(0,10)}`;
-  let resultValue: number = 0;
 
-  if(!Number(guess)) return NextResponse.json({ points: 0, message: "Guess is not a number" })
+  const parsedGuess = Number(guess);
+  if (Number.isNaN(parsedGuess)) {
+    return NextResponse.json(
+      { points: 0, message: "Guess is not a number" },
+      { status: 400 }
+    );
+  }
 
-  const challenge = await redis.get<DailyChallenge>(todayKey);
+  const today = new Date().toISOString().slice(0, 10);
+  const seed = Number(today.replace(/-/g, ""));
+  const index = seed % events.length;
 
+  const challengeKey = `daily:challenge:${today}`;
+  const statsKey = `stats:${today}:event:${index}`;
+  const guessesKey = `${statsKey}:guesses`;
+
+  const challenge = await redis.get<DailyChallenge>(challengeKey);
   if (!challenge) {
-  return NextResponse.json({
-    points: 0,
-    message: "Sorry, no challenge today",
-  });
-}
+    return NextResponse.json({ error: "No challenge" }, { status: 400 });
+  }
 
-  const answer = challenge.answer;
-  
-  if(guess === answer) resultValue = 3
-  else if(Math.abs(guess - answer) <= 4) resultValue = 2
-  else if(Math.abs(guess - answer) <= 10) resultValue = 1
+  const diff = Math.abs(parsedGuess - challenge.answer);
 
-  console.log('answer', answer, 'guess', guess)
+  let points = 0;
+  let bucket: "exact" | "within5" | "within10" | null = null;
 
-  return NextResponse.json({ points: resultValue, message: "Success" })
+  if (diff === 0) {
+    points = 3;
+    bucket = "exact";
+  } else if (diff <= 5) {
+    points = 2;
+    bucket = "within5";
+  } else if (diff <= 10) {
+    points = 1;
+    bucket = "within10";
+  }
+
+  await redis.hincrby(statsKey, "total", 1);
+  if (bucket) {
+    await redis.hincrby(statsKey, bucket, 1);
+  }
+
+  await redis.zincrby(guessesKey, 1, String(parsedGuess));
+
+  return NextResponse.json({ points, message: "Success" });
 }
