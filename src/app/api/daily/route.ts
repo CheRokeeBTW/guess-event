@@ -3,18 +3,25 @@ import { redis } from "@/app/lib/redis";
 import events from "@/app/dailyEvents/events";
 import { DailyChallenge } from "@/app/types";
 
-export async function GET() {
-  const todayKey = `daily:challenge:${new Date().toISOString().slice(0,10)}`;
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const step = Number(searchParams.get("step") ?? 0);
 
-  let challenge = await redis.get<DailyChallenge>(todayKey);
+  const today = new Date().toISOString().slice(0, 10);
+  const seed = Number(today.replace(/-/g, ""));
+  const dayIndex = seed % events.length;
+
+  const dayPack = events[dayIndex];
+  const challenge = dayPack?.[step];
 
   if (!challenge) {
-    const allKeys = await redis.keys("daily:challenge:*");
-    const index = allKeys.length % events.length;
-    challenge = events[index];
-
-    await redis.set(todayKey, challenge);
+    return NextResponse.json({ done: true });
   }
 
-  return NextResponse.json(challenge);
+  return NextResponse.json({
+    step,
+    totalSteps: dayPack.length,
+    image: challenge.image,
+    question: challenge.question,
+  });
 }

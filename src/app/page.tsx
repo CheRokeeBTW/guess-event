@@ -15,49 +15,65 @@ export default function Home() {
   exactPercent: number;
   mostPopularGuess: { guess: string; count: number } | null;
 } | null>(null);
+const [step, setStep] = useState(0);
+const [isCompleted,setIsCompleted] = useState<Boolean> (false);
 
-  useEffect(()=>{
-    async function fetchChallengeData(){
-      try{
-    const res = await fetch('/api/daily')
-    const data = await res.json();
-    if (!res.ok) {
-    throw new Error('Network response was not ok');
-  }
-  else{
-    setChallengeData(data);
-    setIsLoading(false)
-  }
-  console.log(data)
-    }
-    catch(err){
+useEffect(() => {
+  async function fetchChallengeData() {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`/api/daily?step=${step}`);
+      if (!res.ok) throw new Error("Failed to fetch challenge");
+      const data = await res.json();
+      setChallengeData(data);
+    } catch (err) {
       console.error(err);
+    } finally {
+      setIsLoading(false);
     }
   }
-    fetchChallengeData();
-  },[])
+
+  fetchChallengeData();
+}, [step]);
 
   useEffect(() => {
   console.log('isLoading changed:', isLoading);
 }, [isLoading]);
 
-  const handleGuessValue = async() =>{
-    if(!guessValue) return;
+ const handleGuessValue = async () => {
+  if (!guessValue) return;
 
-    const res = await fetch('/api/guess',{
-    method:"POST",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ guess: Number(guessValue) })
-    })
-    const data = await res.json();
-    console.log('post', data)
-    setResult(data.points)
+  const res = await fetch("/api/guess", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      guess: Number(guessValue),
+      step,
+    }),
+  });
 
-    const statsRes = await fetch("/api/stats");
-    const statsData = await statsRes.json();
-    setStats(statsData);
-    console.log(statsData, 'stats')
-  }
+  const data = await res.json();
+  setResult((prev) => prev + data.points);
+
+  const statsRes = await fetch(`/api/stats?step=${step}`);
+  const statsData = await statsRes.json();
+  setStats(statsData);
+  console.log(statsData, step)
+  setIsCompleted(true);
+
+  // setGuessValue("");
+  // setTimeout(() => {
+  //   setStep((prev) => prev + 1);
+  //   setResult(0);
+  //   setStats(null);
+  // }, 1500);
+};
+
+const handleNext = async() => {
+  setStep((prev) => prev + 1);
+  setGuessValue("")
+  setStats(null);
+}
 
 if(isLoading) return <div>Loading...</div>
 
@@ -71,7 +87,9 @@ if(isLoading) return <div>Loading...</div>
           Sign in
         </button>
       </div>
-
+<div className="text-xs text-zinc-400 text-center">
+  Event {step + 1} of 5
+</div>
       <div className="rounded-xl overflow-hidden border border-zinc-700">
         <Image
           src={challengeData?.image || "/placeholder.jpg"}
@@ -101,6 +119,13 @@ if(isLoading) return <div>Loading...</div>
       >
         Guess
       </button>
+      {isCompleted &&(
+      <button className="w-full rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors py-2 font-semibold"
+      onClick={handleNext}
+      >
+        Next
+      </button>
+      )}
       
           {stats && (
   <div className="w-full rounded-lg border bg-gray-300 p-3 text-sm text-gray-800">

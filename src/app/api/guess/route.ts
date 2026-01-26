@@ -4,9 +4,9 @@ import { DailyChallenge } from "@/app/types";
 import events from "@/app/dailyEvents/events";
 
 export async function POST(req: Request) {
-  const { guess } = await req.json();
-
+  const { guess, step } = await req.json();
   const parsedGuess = Number(guess);
+
   if (Number.isNaN(parsedGuess)) {
     return NextResponse.json(
       { points: 0, message: "Guess is not a number" },
@@ -16,15 +16,11 @@ export async function POST(req: Request) {
 
   const today = new Date().toISOString().slice(0, 10);
   const seed = Number(today.replace(/-/g, ""));
-  const index = seed % events.length;
+  const dayIndex = seed % events.length;
 
-  const challengeKey = `daily:challenge:${today}`;
-  const statsKey = `stats:${today}:event:${index}`;
-  const guessesKey = `${statsKey}:guesses`;
-
-  const challenge = await redis.get<DailyChallenge>(challengeKey);
+  const challenge = events[dayIndex]?.[step];
   if (!challenge) {
-    return NextResponse.json({ error: "No challenge" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid step" }, { status: 400 });
   }
 
   const diff = Math.abs(parsedGuess - challenge.answer);
@@ -43,12 +39,15 @@ export async function POST(req: Request) {
     bucket = "within10";
   }
 
-  await redis.hincrby(statsKey, "total", 1);
-  if (bucket) {
-    await redis.hincrby(statsKey, bucket, 1);
-  }
+  const statsKey = `stats:${today}:step:${step}`;
+  const guessesKey = `${statsKey}:guesses`;
 
+  await redis.hincrby(statsKey, "total", 1);
+  if (bucket) await redis.hincrby(statsKey, bucket, 1);
   await redis.zincrby(guessesKey, 1, String(parsedGuess));
 
-  return NextResponse.json({ points, message: "Success" });
+  return NextResponse.json({
+    points,
+    nextStep: step + 1,
+  });
 }

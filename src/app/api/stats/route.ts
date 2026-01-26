@@ -2,15 +2,22 @@ import { NextResponse } from "next/server";
 import { redis } from "@/app/lib/redis";
 import events from "@/app/dailyEvents/events";
 
-export async function GET() {
-  const today = new Date().toISOString().slice(0, 10);
-  const seed = Number(today.replace(/-/g, ""));
-  const index = seed % events.length;
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const step = Number(searchParams.get("step") ?? 0);
 
-  const statsKey = `stats:${today}:event:${index}`;
+  const today = new Date().toISOString().slice(0, 10);
+  const statsKey = `stats:${today}:step:${step}`;
   const guessesKey = `${statsKey}:guesses`;
 
-  const stats = await redis.hgetall(statsKey);
+  const rawStats = await redis.hgetall(statsKey);
+
+  const totalPlayers = Number(rawStats?.total ?? 0);
+  const exact = Number(rawStats?.exact ?? 0);
+
+  const exactPercent =
+    totalPlayers > 0 ? Math.round((exact / totalPlayers) * 100) : 0;
+
   const topGuesses = await redis.zrange(
     guessesKey,
     0,
@@ -18,20 +25,13 @@ export async function GET() {
     { rev: true, withScores: true }
   );
 
-  const total = Number(stats?.total || 0);
-  const exact = Number(stats?.exact || 0);
-
-  const exactPercent =
-    total > 0 ? Math.round((exact / total) * 100) : 0;
-
-  const mostPopularGuess = topGuesses.length
-    ? { guess: topGuesses[0], count: topGuesses[1] }
-    : null;
-
-    console.log(guessesKey, 'most popular guess')
+  const mostPopularGuess =
+    topGuesses.length > 0
+      ? { guess: topGuesses[0], count: topGuesses[1] as number }
+      : null;
 
   return NextResponse.json({
-    totalPlayers: total,
+    totalPlayers,
     exactPercent,
     mostPopularGuess,
   });
