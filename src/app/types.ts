@@ -3,3 +3,9 @@ export type DailyChallenge = {
     question: string,
     answer: number, 
     }
+
+export type FinalStats = {
+  totalPlayers: number;
+  percentile: number;
+  avgScore: number;
+};

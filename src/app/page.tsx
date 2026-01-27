@@ -3,20 +3,37 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { DailyChallenge } from "./types";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import FinalStatsModal, {FinalStats} from "./FinalStatsModal";
 
 export default function Home() {
   const [challengeData, setChallengeData] = useState<DailyChallenge | null>();
-  const [isLoading, setIsLoading] = useState<Boolean | null>(true);
+  const [isLoading, setIsLoading] = useState<boolean | null>(true);
   const [guessValue, setGuessValue] = useState<string>("");
-  const [result, setResult] = useState<number | null>(0);
+  const [result, setResult] = useState<number>(0);
   const [questionData, setQuestionData] = useState<string | null>("");
   const [stats, setStats] = useState<{
   totalPlayers: number;
   exactPercent: number;
   mostPopularGuess: { guess: string; count: number } | null;
-} | null>(null);
-const [step, setStep] = useState(0);
-const [isCompleted,setIsCompleted] = useState<Boolean> (false);
+    } | null>(null);
+  const [step, setStep] = useState(0);
+  const [isCompleted,setIsCompleted] = useState<boolean>(false);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [points, setPoints] = useState<number>(0);
+  const [finalStats, setFinalStats] = useState<FinalStats | null>(null);
+  const [showFinalModal, setShowFinalModal] = useState(false);
+
+useEffect(() => {
+  const saved = localStorage.getItem("daily-progress");
+  if (saved) setStep(Number(saved));
+}, []);
+
+useEffect(() => {
+  localStorage.setItem("daily-progress", String(step));
+}, [step]);
 
 useEffect(() => {
   async function fetchChallengeData() {
@@ -38,6 +55,7 @@ useEffect(() => {
 
   useEffect(() => {
   console.log('isLoading changed:', isLoading);
+  console.log(step)
 }, [isLoading]);
 
  const handleGuessValue = async () => {
@@ -51,8 +69,9 @@ useEffect(() => {
       step,
     }),
   });
-
+  
   const data = await res.json();
+  setPoints(data.points);
   setResult((prev) => prev + data.points);
 
   const statsRes = await fetch(`/api/stats?step=${step}`);
@@ -61,18 +80,45 @@ useEffect(() => {
   console.log(statsData, step)
   setIsCompleted(true);
 
-  // setGuessValue("");
-  // setTimeout(() => {
-  //   setStep((prev) => prev + 1);
-  //   setResult(0);
-  //   setStats(null);
-  // }, 1500);
+   if (step === 4) {
+    const finalRes = await fetch("/api/final", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ score: result + data.points }),
+    });
+
+    const finalData = await finalRes.json();
+
+      const finalStatsPayload = {
+      totalPlayers: finalData.totalPlayers,
+      percentile: finalData.percentile,
+      avgScore: finalData.avgScore,
+      score: result,
+    };
+
+    setFinalStats(finalStatsPayload);
+    setShowFinalModal(true);
+
+    localStorage.setItem("daily-final-stats",
+      JSON.stringify(finalStatsPayload),);
+  }
 };
+
+// useEffect(() => {
+//   const saved = localStorage.getItem("daily-final-stats");
+//   if (saved) {
+//     const parsed = JSON.parse(saved);
+//     setResult(parsed.score);
+//     setFinalStats(parsed);
+//     setShowFinalModal(true);
+//   }
+// }, []);
 
 const handleNext = async() => {
   setStep((prev) => prev + 1);
   setGuessValue("")
   setStats(null);
+  setIsCompleted(false);
 }
 
 if(isLoading) return <div>Loading...</div>
@@ -82,11 +128,44 @@ if(isLoading) return <div>Loading...</div>
     <main className="w-full max-w-md rounded-2xl bg-zinc-900/90 shadow-2xl p-6 flex flex-col gap-5">
 
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Guess the Year</h1>
-        <button className="text-sm text-zinc-300 hover:text-white underline">
-          Sign in
-        </button>
-      </div>
+  <h1 className="text-xl font-semibold">Guess the Year</h1>
+  {status === "loading" ? (
+    <span className="text-sm text-zinc-300">Loading...</span>
+  ) : session?.user ? (
+      <div className="flex items-center gap-2">
+        {session?.user?.image && (
+    <img
+      src={session.user.image}
+      alt={session.user.name || "avatar"}
+      className="w-6 h-6 rounded-full"
+    />
+  )}
+      <span className="text-sm text-white">{session.user.name}</span>
+      <button
+        onClick={() => signOut()}
+        className="text-sm text-zinc-300 hover:text-white underline cursor-pointer"
+      >
+        Sign out
+      </button>
+    </div>
+  ) : (
+    <div className="flex gap-4">
+    <button
+      onClick={() => signIn()}
+      className="text-sm text-zinc-300 hover:text-white underline cursor-pointer"
+    >
+      Sign in
+    </button>
+      <button
+    type="button"
+    className="text-sm text-zinc-300 hover:text-white underline cursor-pointer"
+    onClick={() => router.push("/auth/register")}
+  >
+    <span>Register</span>
+  </button>
+    </div>
+  )}
+</div>
 <div className="text-xs text-zinc-400 text-center">
   Event {step + 1} of 5
 </div>
@@ -105,7 +184,12 @@ if(isLoading) return <div>Loading...</div>
       </div>
 
       <input
-        className="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-4 py-2 text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-green-600"
+       disabled={isCompleted}
+  className={`w-full rounded-lg px-4 py-2 
+    ${isCompleted 
+      ? "bg-zinc-700 cursor-not-allowed text-zinc-400" 
+      : "bg-zinc-800 text-white"}
+      border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-green-600`}
         type="number"
         name="guess"
         value={guessValue}
@@ -115,12 +199,16 @@ if(isLoading) return <div>Loading...</div>
 
       <button
         onClick={handleGuessValue}
-        className="w-full rounded-lg bg-green-600 hover:bg-green-500 transition-colors py-2 font-semibold"
+        disabled={isCompleted}
+        className={`w-full rounded-lg py-2 font-semibold transition-colors hover:cursor-pointer
+          ${isCompleted 
+            ? "bg-zinc-600 cursor-not-allowed" 
+            : "bg-green-600 hover:bg-green-500"}`}
       >
         Guess
       </button>
-      {isCompleted &&(
-      <button className="w-full rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors py-2 font-semibold"
+      {isCompleted && step !== 4 && (
+      <button className="w-full rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors py-2 font-semibold hover:cursor-pointer"
       onClick={handleNext}
       >
         Next
@@ -131,7 +219,7 @@ if(isLoading) return <div>Loading...</div>
   <div className="w-full rounded-lg border bg-gray-300 p-3 text-sm text-gray-800">
     <p>
       🎯 <strong>{stats.exactPercent}%</strong> of players got it exactly right
-    {(result === 3) && <span> (including you!)</span>}
+    {(points === 3) && <span> (including you!)</span>}
     </p>
     {stats.mostPopularGuess && (
       <p className="mt-1">
@@ -147,12 +235,18 @@ if(isLoading) return <div>Loading...</div>
 
       <div className="text-center text-lg text-zinc-300">
         Your points: <span className="font-semibold text-white">{result}</span>
-        {result === 3 && <span className="text-yellow-600 text-sm"> (you're not cheating right?)</span>}
-        {result === 2 && <span className="text-yellow-600 text-sm"> (very close!)</span>}
-        {result === 1 && <span className="text-yellow-600 text-sm"> (well at least you got a point)</span>}
-        {result === 0 && <span className="text-yellow-600 text-sm"> (at least you're not cheating)</span>}
+        {points === 3 && isCompleted && <span className="text-yellow-600 text-sm"> (you're not cheating right?)</span>}
+        {points === 2 && isCompleted && <span className="text-yellow-600 text-sm"> (very close!)</span>}
+        {points === 1 && isCompleted && <span className="text-yellow-600 text-sm"> (well at least you got a point)</span>}
+        {points === 0 && isCompleted && <span className="text-yellow-600 text-sm"> (at least you're not cheating)</span>}
       </div>
-
+      {showFinalModal && finalStats && (
+  <FinalStatsModal
+    score={result}
+    stats={finalStats}
+    onClose={() => setShowFinalModal(false)}
+  />
+)}
     </main>
   </div>
 );

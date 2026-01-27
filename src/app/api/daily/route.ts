@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { redis } from "@/app/lib/redis";
+import { redis } from "@/app/api/auth/lib/redis";
 import events from "@/app/dailyEvents/events";
 import { DailyChallenge } from "@/app/types";
 
