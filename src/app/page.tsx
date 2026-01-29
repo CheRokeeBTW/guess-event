@@ -7,6 +7,8 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import FinalStatsModal, {FinalStats} from "./FinalStatsModal";
 
+const today = new Date().toISOString().slice(0, 10);
+
 export default function Home() {
   const [challengeData, setChallengeData] = useState<DailyChallenge | null>();
   const [isLoading, setIsLoading] = useState<boolean | null>(true);
@@ -25,15 +27,6 @@ export default function Home() {
   const [points, setPoints] = useState<number>(0);
   const [finalStats, setFinalStats] = useState<FinalStats | null>(null);
   const [showFinalModal, setShowFinalModal] = useState(false);
-
-useEffect(() => {
-  const saved = localStorage.getItem("daily-progress");
-  if (saved) setStep(Number(saved));
-}, []);
-
-useEffect(() => {
-  localStorage.setItem("daily-progress", String(step));
-}, [step]);
 
 useEffect(() => {
   async function fetchChallengeData() {
@@ -99,20 +92,45 @@ useEffect(() => {
     setFinalStats(finalStatsPayload);
     setShowFinalModal(true);
 
-    localStorage.setItem("daily-final-stats",
-      JSON.stringify(finalStatsPayload),);
+   localStorage.setItem(
+     `daily-final-stats:${today}`,
+    JSON.stringify({ ...finalStatsPayload, date: today })
+    );
   }
 };
 
-// useEffect(() => {
-//   const saved = localStorage.getItem("daily-final-stats");
-//   if (saved) {
-//     const parsed = JSON.parse(saved);
-//     setResult(parsed.score);
-//     setFinalStats(parsed);
-//     setShowFinalModal(true);
-//   }
-// }, []);
+useEffect(() => {
+  const saved = localStorage.getItem(`daily-progress:${today}`);
+  if (saved) {
+    setStep(Number(saved));
+  } else {
+    setStep(0); 
+  }
+}, []);
+
+useEffect(() => {
+  localStorage.setItem(`daily-progress:${today}`, String(step));
+}, [step]);
+
+useEffect(() => {
+  const saved = localStorage.getItem(`daily-final-stats:${today}`);
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    setResult(parsed.score);
+    setFinalStats(parsed);
+    setShowFinalModal(true);
+  }
+}, []);
+
+useEffect(() => {
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith("daily-progress:") || key.startsWith("daily-final-stats:")) {
+      if (!key.includes(today)) {
+        localStorage.removeItem(key);
+      }
+    }
+  });
+}, []);
 
 const handleNext = async() => {
   setStep((prev) => prev + 1);
@@ -197,6 +215,7 @@ if(isLoading) return <div>Loading...</div>
         onChange={(e) => setGuessValue(e.target.value)}
       />
 
+      {!isCompleted && (
       <button
         onClick={handleGuessValue}
         disabled={isCompleted}
@@ -207,6 +226,7 @@ if(isLoading) return <div>Loading...</div>
       >
         Guess
       </button>
+      )}
       {isCompleted && step !== 4 && (
       <button className="w-full rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors py-2 font-semibold hover:cursor-pointer"
       onClick={handleNext}
