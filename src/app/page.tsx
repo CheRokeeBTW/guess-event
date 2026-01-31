@@ -14,7 +14,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean | null>(true);
   const [guessValue, setGuessValue] = useState<string>("");
   const [result, setResult] = useState<number>(0);
-  const [questionData, setQuestionData] = useState<string | null>("");
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(true);
+  const [answer, setAnswer] = useState<number | null>(null);
   const [stats, setStats] = useState<{
   totalPlayers: number;
   exactPercent: number;
@@ -36,6 +37,7 @@ useEffect(() => {
       if (!res.ok) throw new Error("Failed to fetch challenge");
       const data = await res.json();
       setChallengeData(data);
+      setAnswer(data.answer);
     } catch (err) {
       console.error(err);
     } finally {
@@ -66,6 +68,8 @@ useEffect(() => {
   const statsData = await statsRes.json();
   setStats(statsData);
   setIsCompleted(true);
+
+  if (Number(guessValue) !== challengeData?.answer) setIsCorrect(false);
 
    if (step === 4) {
     const finalRes = await fetch("/api/final", {
@@ -131,6 +135,7 @@ const handleNext = async() => {
   setGuessValue("")
   setStats(null);
   setIsCompleted(false);
+  setIsCorrect(true);
 }
 
 if(isLoading) return <div>Loading...</div>
@@ -198,17 +203,28 @@ if(isLoading) return <div>Loading...</div>
         />
       </div>
 
-      <div className="text-center text-zinc-300 text-sm">
-        {challengeData?.question || "When did this event happen?"}
+      <div className="-mt-3 text-center text-zinc-300 text-sm">
+        {challengeData?.question || "Sorry, there was an error to get a question"}
       </div>
 
+      <div className="-mt-2 relative w-full">
+        {!isCorrect && (
+        <span className="bg-zinc-900 text-[11px] text-green-500">
+          Correct answer is <span className="font-bold">{challengeData?.answer}</span>
+        </span>
+      )}
       <input
        disabled={isCompleted}
-  className={`w-full rounded-lg px-4 py-2 
-    ${isCompleted 
-      ? "bg-zinc-700 cursor-not-allowed text-zinc-400" 
-      : "bg-zinc-800 text-white"}
-      border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-green-600`}
+    className={`w-full rounded-lg px-4 py-2
+    ${
+      isCompleted
+        ? isCorrect
+          ? "bg-green-900/20 border-green-500 text-green-300 cursor-not-allowed"
+          : "bg-red-900/20 border-red-500 text-red-300 cursor-not-allowed"
+        : "bg-zinc-800 border-zinc-700 text-white"
+    }
+    border focus:outline-none focus:ring-2 focus:ring-green-600`}
+
         type="number"
         name="guess"
         value={guessValue}
@@ -221,6 +237,7 @@ if(isLoading) return <div>Loading...</div>
                 }
               }
           />
+          </div>
 
       {!isCompleted && (
       <button

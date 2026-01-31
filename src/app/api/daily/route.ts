@@ -14,6 +14,8 @@ export async function GET(req: Request) {
   const dayPack = events[dayIndex];
   const challenge = dayPack?.[step];
 
+  const answer = challenge.answer;
+
   if (!challenge) {
     return NextResponse.json({ done: true });
   }
@@ -23,5 +25,6 @@ export async function GET(req: Request) {
     totalSteps: dayPack.length,
     image: challenge.image,
     question: challenge.question,
+    answer,
   });
 }
