@@ -46,11 +46,6 @@ useEffect(() => {
   fetchChallengeData();
 }, [step]);
 
-  useEffect(() => {
-  console.log('isLoading changed:', isLoading);
-  console.log(step)
-}, [isLoading]);
-
  const handleGuessValue = async () => {
   if (!guessValue) return;
 
@@ -70,7 +65,6 @@ useEffect(() => {
   const statsRes = await fetch(`/api/stats?step=${step}`);
   const statsData = await statsRes.json();
   setStats(statsData);
-  console.log(statsData, step)
   setIsCompleted(true);
 
    if (step === 4) {

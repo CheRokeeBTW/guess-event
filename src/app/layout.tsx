@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     siteName: "Guess the Event",
     images: [
       {
-        url: "/thinkingFace.png",
+        url: "https://guess-the-event.vercel.app/thinkingFace.png",
         width: 1200,
         height: 630,
         alt: "Guess the Event",
