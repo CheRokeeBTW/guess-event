@@ -14,6 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  verification: {
+    google: "googlee81d29b952995f62"
+  },
   title: "Guess the Event – Daily History Guessing Game",
   description: "Guess the year of real historical (and other) events. Play daily challenges, compare your score with others, and see how you rank worldwide",
    keywords: [
