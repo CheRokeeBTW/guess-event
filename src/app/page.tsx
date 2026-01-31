@@ -142,9 +142,16 @@ const handleNext = async() => {
 if(isLoading) return <div>Loading...</div>
 
   return (
-  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-900 to-zinc-800 font-sans text-white">
+  <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-zinc-900 to-zinc-800 font-sans text-white">
+       <div className="mb-6 flex flex-col items-center text-center gap-2 px-2">
+  <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+    Guess the year of real events
+  </h1>
+  <p className="max-w-md text-sm sm:text-base text-zinc-400 leading-relaxed">
+    Play 5 daily challenges, score points, and see how you rank against players worldwide.
+  </p>
+</div>
     <main className="w-full max-w-md rounded-2xl bg-zinc-900/90 shadow-2xl p-6 flex flex-col gap-5">
-
       <div className="flex items-center justify-between">
   <h1 className="text-xl font-semibold">Guess the Year</h1>
   {status === "loading" ? (
@@ -185,7 +192,7 @@ if(isLoading) return <div>Loading...</div>
   )}
 </div>
 <div className="text-xs text-zinc-400 text-center">
-  Event {step + 1} of 5
+  Question {step + 1} of 5
 </div>
       <div className="rounded-xl overflow-hidden border border-zinc-700">
         <Image
@@ -213,7 +220,13 @@ if(isLoading) return <div>Loading...</div>
         value={guessValue}
         placeholder="Enter year (e.g. 1800)"
         onChange={(e) => setGuessValue(e.target.value)}
-      />
+        onKeyDown={(e) => {
+          if (e.key !== 'Enter') return;
+          e.preventDefault();
+          handleGuessValue();
+                }
+              }
+          />
 
       {!isCompleted && (
       <button
