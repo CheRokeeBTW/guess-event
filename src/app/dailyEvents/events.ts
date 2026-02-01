@@ -9,7 +9,7 @@ import { DailyChallenge } from "../types";
   { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Youtube_interface%2C_showing_search_results_of_Burger_Recipe.png/330px-Youtube_interface%2C_showing_search_results_of_Burger_Recipe.png", question: "When was YouTube created?", answer: 2005 },
   ], //first day
     [
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Raising_a_flag_over_the_Reichstag_-_Restoration.jpg/250px-Raising_a_flag_over_the_Reichstag_-_Restoration.jpg", question: "When did the World War II ended", answer: 1939 },
+  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Raising_a_flag_over_the_Reichstag_-_Restoration.jpg/250px-Raising_a_flag_over_the_Reichstag_-_Restoration.jpg", question: "When did the World War II ended", answer: 1945 },
   { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/RMS_Titanic_3_%28cropped_to_ship%29.jpg/330px-RMS_Titanic_3_%28cropped_to_ship%29.jpg", question: "When did the Titanic sink?", answer: 1912 },
   { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/RIAN_archive_848095_Signing_the_Agreement_to_eliminate_the_USSR_and_establish_the_Commonwealth_of_Independent_States.jpg/330px-RIAN_archive_848095_Signing_the_Agreement_to_eliminate_the_USSR_and_establish_the_Commonwealth_of_Independent_States.jpg", question: "When did the Cold War officially end?", answer: 1991 },
   { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/19th_century_Coca-Cola_coupon.jpg/250px-19th_century_Coca-Cola_coupon.jpg", question: "When did Coca-Cola get invented?", answer: 1886 },
