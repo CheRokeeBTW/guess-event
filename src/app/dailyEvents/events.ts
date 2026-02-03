@@ -2,11 +2,11 @@ import { DailyChallenge } from "../types";
 
  const events: DailyChallenge[][] = [
   [
-  { image: "https://upload.wikimedia.org/wikipedia/commons/0/0c/ENIAC-changing_a_tube_%28cropped%29.jpg", question: "When was the first pc invented?", answer: 1971 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Bataille_de_Verdun_1916.jpg/250px-Bataille_de_Verdun_1916.jpg", question: "When did the World War I started?", answer: 1914 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/A_Man_on_the_Moon%2C_AS11-40-5903_%28cropped%29.jpg/330px-A_Man_on_the_Moon%2C_AS11-40-5903_%28cropped%29.jpg", question: "When was the first moon landing?", answer: 1969 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/West_and_East_Germans_at_the_Brandenburg_Gate_in_1989.jpg/330px-West_and_East_Germans_at_the_Brandenburg_Gate_in_1989.jpg", question: "When did the Berlin wall fall?", answer: 1989 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Youtube_interface%2C_showing_search_results_of_Burger_Recipe.png/330px-Youtube_interface%2C_showing_search_results_of_Burger_Recipe.png", question: "When was YouTube created?", answer: 2005 },
+  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Chernobyl_-_power_plant_-_reactor_4_02.jpg/250px-Chernobyl_-_power_plant_-_reactor_4_02.jpg", question: " What year did the Chernobyl disaster occur?", answer: 1986 },
+  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Chrome_on_Linux.png/250px-Chrome_on_Linux.png", question: "When was the World Wide Web first made available to the public?", answer: 1991 },
+  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/250px-Flag_of_Europe.svg.png", question: "What year was the Euro currency introduced?", answer: 2002 },
+  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/U.S._Army_UH-1H_Hueys_insert_ARVN_troops_at_Kh%C3%A2m_%C4%90%E1%BB%A9c%2C_Vietnam%2C_12_July_1970_%2879431435%29.jpg/250px-U.S._Army_UH-1H_Hueys_insert_ARVN_troops_at_Kh%C3%A2m_%C4%90%E1%BB%A9c%2C_Vietnam%2C_12_July_1970_%2879431435%29.jpg", question: "When did the Vietnam War officially end?", answer: 1975 },
+  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Flag_of_the_United_Nations.svg/250px-Flag_of_the_United_Nations.svg.png", question: "What year was the United Nations established?", answer: 2005 },
   ], //first day
     [
   { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Raising_a_flag_over_the_Reichstag_-_Restoration.jpg/250px-Raising_a_flag_over_the_Reichstag_-_Restoration.jpg", question: "When did the World War II ended", answer: 1945 },
