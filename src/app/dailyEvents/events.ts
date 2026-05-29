@@ -2,60 +2,221 @@ import { DailyChallenge } from "../types";
 
  const events: DailyChallenge[][] = [
   [
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Chernobyl_-_power_plant_-_reactor_4_02.jpg/250px-Chernobyl_-_power_plant_-_reactor_4_02.jpg", question: " What year did the Chernobyl disaster occur?", answer: 1986 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Chrome_on_Linux.png/250px-Chrome_on_Linux.png", question: "When was the World Wide Web first made available to the public?", answer: 1991 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/250px-Flag_of_Europe.svg.png", question: "What year was the Euro currency introduced?", answer: 2002 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/U.S._Army_UH-1H_Hueys_insert_ARVN_troops_at_Kh%C3%A2m_%C4%90%E1%BB%A9c%2C_Vietnam%2C_12_July_1970_%2879431435%29.jpg/250px-U.S._Army_UH-1H_Hueys_insert_ARVN_troops_at_Kh%C3%A2m_%C4%90%E1%BB%A9c%2C_Vietnam%2C_12_July_1970_%2879431435%29.jpg", question: "When did the Vietnam War officially end?", answer: 1975 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Flag_of_the_United_Nations.svg/250px-Flag_of_the_United_Nations.svg.png", question: "What year was the United Nations established?", answer: 2005 },
+  {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/250px-Netflix_2015_logo.svg.png",
+      question: "When was Netflix launched?",
+      answer: 1997
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/250px-IBM_logo.svg.png",
+      question: "When was IBM founded?",
+      answer: 1911
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/250px-React-icon.svg.png",
+      question: "When was React first released?",
+      answer: 2013
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/250px-Microsoft_logo.svg.png",
+      question: "When was Microsoft founded?",
+      answer: 1975
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/USA_-_Texas_-_Boca_Chica_-_Starbase_%2851285307187%29.jpg/1920px-USA_-_Texas_-_Boca_Chica_-_Starbase_%2851285307187%29.jpg",
+      question: "When was SpaceX founded?",
+      answer: 2002
+    },
   ], //first day
     [
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Raising_a_flag_over_the_Reichstag_-_Restoration.jpg/250px-Raising_a_flag_over_the_Reichstag_-_Restoration.jpg", question: "When did the World War II ended", answer: 1945 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/RMS_Titanic_3_%28cropped_to_ship%29.jpg/330px-RMS_Titanic_3_%28cropped_to_ship%29.jpg", question: "When did the Titanic sink?", answer: 1912 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/RIAN_archive_848095_Signing_the_Agreement_to_eliminate_the_USSR_and_establish_the_Commonwealth_of_Independent_States.jpg/330px-RIAN_archive_848095_Signing_the_Agreement_to_eliminate_the_USSR_and_establish_the_Commonwealth_of_Independent_States.jpg", question: "When did the Cold War officially end?", answer: 1991 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/19th_century_Coca-Cola_coupon.jpg/250px-19th_century_Coca-Cola_coupon.jpg", question: "When did Coca-Cola get invented?", answer: 1886 },
+ {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Android_phone.jpg/250px-Android_phone.jpg",
+      question: "When was Android first released?",
+      answer: 2008
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/SEGA_logo.svg/500px-SEGA_logo.svg.png",
+      question: "When was the Sega Dreamcast released?",
+      answer: 1998
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Youtube_interface%2C_showing_search_results_of_Burger_Recipe.png/330px-Youtube_interface%2C_showing_search_results_of_Burger_Recipe.png",
+      question: "When was YouTube launched?",
+      answer: 2005
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/PS2-Versions.png/250px-PS2-Versions.png",
+      question: "When was the PlayStation 2 released?",
+      answer: 2000
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Windows_95_at_first_run.png/330px-Windows_95_at_first_run.png",
+      question: "When was Windows 95 released?",
+      answer: 1995
+    },
   { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/LEGO_logo.svg/250px-LEGO_logo.svg.png", question: "When was LEGO founded?", answer: 1932 },
   ], //second day
       [
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Photographer_Photographing_Nevada_Mountains.jpg/330px-Photographer_Photographing_Nevada_Mountains.jpg", question: "When did humans first take a photo?", answer: 1826 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Flag_of_the_Soviet_Union.svg/250px-Flag_of_the_Soviet_Union.svg.png", question: "When was the Soviet Union dissolved?", answer: 1991 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Evolution_36_mail.png/250px-Evolution_36_mail.png", question: "When was the first email sent?", answer: 1971 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/DNA_Structure%2BKey%2BLabelled.pn_NoBB.png/330px-DNA_Structure%2BKey%2BLabelled.pn_NoBB.png", question: "When was DNA structure discovered?", answer: 1953 },
-  { image: "https://upload.wikimedia.org/wikipedia/en/thumb/9/9c/Steam_%28service%29.png/250px-Steam_%28service%29.png", question: "When was Steam launched?", answer: 2003 },
+   {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/NASA_seal.svg/250px-NASA_seal.svg.png",
+      question: "When was NASA founded?",
+      answer: 1958
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/A_Man_on_the_Moon%2C_AS11-40-5903_%28cropped%29.jpg/330px-A_Man_on_the_Moon%2C_AS11-40-5903_%28cropped%29.jpg",
+      question: "When did Apollo 11 land on the Moon?",
+      answer: 1969
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg/330px-The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg",
+      question: "When was the International Space Station first launched?",
+      answer: 1998
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/STS-109-HST-s109e5700.jpg/330px-STS-109-HST-s109e5700.jpg",
+      question: "When was the Hubble Space Telescope launched?",
+      answer: 1990
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Blue_Origin_new_logo.svg/330px-Blue_Origin_new_logo.svg.png",
+      question: "When was Blue Origin founded?",
+      answer: 2000
+    },
   ], //3rd day
       [
-  { image: "https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/Minecraft_2024_cover_art.png/250px-Minecraft_2024_cover_art.png", question: "When was Minecraft first released? (alpha release)", answer: 2009 },
-  { image: "https://upload.wikimedia.org/wikipedia/en/thumb/a/a5/Grand_Theft_Auto_V.png/250px-Grand_Theft_Auto_V.png", question: "When was GTA V released?", answer: 2013 },
-  { image: "https://upload.wikimedia.org/wikipedia/en/thumb/6/65/World_of_Warcraft.png/250px-World_of_Warcraft.png", question: "When was World of Warcraft released?", answer: 2004 },
-  { image: "https://upload.wikimedia.org/wikipedia/en/0/03/Super_Mario_Bros._box.png", question: "When was Super Mario Bros. released?", answer: 1985 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Bethesda_Game_Studios_logo.svg/250px-Bethesda_Game_Studios_logo.svg.png", question: "When was Bethesda Softworks LLC founded", answer: 1986 },
+  {
+      image: "https://upload.wikimedia.org/wikipedia/en/thumb/1/1f/Reddit_logo_2023.svg/330px-Reddit_logo_2023.svg.png",
+      question: "When was Reddit launched?",
+      answer: 2005
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/en/thumb/a/a9/TikTok_logo.svg/250px-TikTok_logo.svg.png",
+      question: "When was TikTok launched internationally?",
+      answer: 2017
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/250px-Telegram_logo.svg.png",
+      question: "When was Telegram launched?",
+      answer: 2013
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/250px-Apple_logo_black.svg.png",
+      question: "When was Apple founded?",
+      answer: 1976
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/2024_Spotify_Logo.svg/330px-2024_Spotify_Logo.svg.png",
+      question: "When was Spotify launched?",
+      answer: 2008
+    },
   ], //4th day
       [
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Facebook_logo_%282023%29.svg/250px-Facebook_logo_%282023%29.svg.png", question: "When was Facebook launched?", answer: 2004 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_of_Twitter.svg/120px-Logo_of_Twitter.svg.png", question: "When was Twitter (X) launched?", answer: 2006 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/First_iPhone_Macworld_2007_DSCF1286.agr.jpg/250px-First_iPhone_Macworld_2007_DSCF1286.agr.jpg", question: "When was the first iPhone released?", answer: 2007 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/120px-Google_Chrome_icon_%28February_2022%29.svg.png", question: "When did Google launch?", answer: 1998 },
-  { image: "https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/250px-Wikipedia-logo-v2.svg.png", question: "When did Wikipedia launch?", answer: 2001 },
+   {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/330px-Colosseo_2020.jpg",
+      question: "When was the Colosseum completed?",
+      answer: 80
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg/330px-Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg",
+      question: "When was the Eiffel Tower completed?",
+      answer: 1889
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_%28Edited%29.jpeg/250px-Taj_Mahal_%28Edited%29.jpeg",
+      question: "When was the Taj Mahal completed?",
+      answer: 1653
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/The_Great_Wall_of_China_at_Jinshanling-edit.jpg/330px-The_Great_Wall_of_China_at_Jinshanling-edit.jpg",
+      question: "When was the Great Wall of China first built?",
+      answer: 220
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Great_Pyramid_of_Giza_-_Pyramid_of_Khufu.jpg/250px-Great_Pyramid_of_Giza_-_Pyramid_of_Khufu.jpg",
+      question: "Around what year was the Great Pyramid of Giza completed?",
+      answer: 2560
+    },
   ], //5th day
       [
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Battle_of_Gettysburg%2C_by_Currier_and_Ives.png/330px-Battle_of_Gettysburg%2C_by_Currier_and_Ives.png", question: "When did the American Civil War begin?", answer: 1861 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Napoleon_Wagram.jpg/250px-Napoleon_Wagram.jpg", question: "When did Napoleon become Emperor of France?", answer: 1804 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/OpenAI_logo_2025_%28symbol%29.svg/120px-OpenAI_logo_2025_%28symbol%29.svg.png", question: "When was ChatGPT released?", answer: 2022 },
-  { image: "https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Google_maps_screenshot.png/330px-Google_maps_screenshot.png", question: "When was Google Maps launched?", answer: 2005 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Shrek_logo.svg/250px-Shrek_logo.svg.png", question: "When was Shrek released?", answer: 2001 },
+ {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/ChessSet.jpg/250px-ChessSet.jpg",
+      question: "Around what year was chess invented?",
+      answer: 600
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Olympic_rings_without_rims.svg/250px-Olympic_rings_without_rims.svg.png",
+      question: "When were the first modern Olympic Games held?",
+      answer: 1896
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Logo_NIKE.svg/250px-Logo_NIKE.svg.png",
+      question: "When was Nike founded?",
+      answer: 1964
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/FIFA_logo_without_slogan.svg/250px-FIFA_logo_without_slogan.svg.png",
+      question: "When was FIFA founded?",
+      answer: 1904
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Wimbledon.svg/500px-Wimbledon.svg.png",
+      question: "When was Wimbledon first held?",
+      answer: 1877
+    },
   ], //6th day
       [
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/250px-Instagram_logo_2022.svg.png", question: "When was Instagram launched?", answer: 2010 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/250px-Bitcoin.svg.png", question: "When did Bitcoin launch?", answer: 2009 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Voting_United_States.jpg/250px-Voting_United_States.jpg", question: "When did women gain the right to vote in the US?", answer: 1920 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Flag_of_the_Ottoman_Empire_%281844%E2%80%931922%29.svg/250px-Flag_of_the_Ottoman_Empire_%281844%E2%80%931922%29.svg.png", question: "When did the Ottoman Empire officially end?", answer: 1922 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/%D0%9F%D0%B5%D1%80%D0%B2%D1%8B%D0%B9_%D0%B2_%D0%BC%D0%B8%D1%80%D0%B5_%D0%B8%D1%81%D0%BA%D1%83%D1%81%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9_%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA_%D0%97%D0%B5%D0%BC%D0%BB%D0%B8.jpg/250px-%D0%9F%D0%B5%D1%80%D0%B2%D1%8B%D0%B9_%D0%B2_%D0%BC%D0%B8%D1%80%D0%B5_%D0%B8%D1%81%D0%BA%D1%83%D1%81%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9_%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA_%D0%97%D0%B5%D0%BC%D0%BB%D0%B8.jpg", question: "When was the first artificial satellite (Sputnik) launched?", answer: 1957 },
+  {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Walt_Disney_Studios_Alameda_Entrance.jpg/250px-Walt_Disney_Studios_Alameda_Entrance.jpg",
+      question: "When was Disney founded?",
+      answer: 1923
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Harry_Potter_logo.svg/250px-Harry_Potter_logo.svg.png",
+      question: "When was the first Harry Potter book released?",
+      answer: 1997
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Marvel_Logo.svg/250px-Marvel_Logo.svg.png",
+      question: "When was Marvel founded?",
+      answer: 1939
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Star_wars2.svg/250px-Star_wars2.svg.png",
+      question: "When was the first Star Wars movie released?",
+      answer: 1977
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f3/Avatar-Logo-2018.png/330px-Avatar-Logo-2018.png",
+      question: "When was Avatar released?",
+      answer: 2009
+    },
   ], // day 7
       [
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/250px-QR_code_for_mobile_English_Wikipedia.svg.png", question: "When was the first QR code invented?", answer: 1994 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/FortniteLogo.svg/250px-FortniteLogo.svg.png", question: "When was Fortnite released?", answer: 2017 },
-  { image: "https://upload.wikimedia.org/wikipedia/en/thumb/4/4b/AmongUsWhiteKillBlue.png/250px-AmongUsWhiteKillBlue.png", question: "When was Among Us released?", answer: 2018 },
-  { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/The_Matrix_%28franchise_logo%29.svg/330px-The_Matrix_%28franchise_logo%29.svg.png", question: "When was The Matrix released?", answer: 1999 },
-  { image: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d8/Game_of_Thrones_title_card.jpg/250px-Game_of_Thrones_title_card.jpg", question: "When did Game of Thrones first air?", answer: 2011 },
+  {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Flag_of_the_Soviet_Union.svg/250px-Flag_of_the_Soviet_Union.svg.png",
+      question: "When did the Soviet Union collapse?",
+      answer: 1991
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Berlinermauer.jpg/330px-Berlinermauer.jpg",
+      question: "When did the Berlin Wall fall?",
+      answer: 1989
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Orville_Wright_1905-crop.jpg/250px-Orville_Wright_1905-crop.jpg",
+      question: "When did the Wright brothers achieve the first powered flight?",
+      answer: 1903
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Jeffrey_Epstein_mug_shot_%28cropped%29.jpg/250px-Jeffrey_Epstein_mug_shot_%28cropped%29.jpg",
+      question: "When was Einstein's Theory of Relativity published?",
+      answer: 1905
+    },
+    {
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Front_view_of_Statue_of_Liberty_%28cropped%29.jpg/330px-Front_view_of_Statue_of_Liberty_%28cropped%29.jpg",
+      question: "When was the Statue of Liberty dedicated?",
+      answer: 1886
+    },
   ], // day 8
 ];
 
